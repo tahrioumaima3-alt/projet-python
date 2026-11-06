@@ -8,12 +8,14 @@ from model.game_model import GameModel
 
 
 class GameView:
-
+    """Gère l'affichage graphique du jeu"""
     def __init__(self, screen: pygame.Surface):
+        """Initialise la fenêtre et la police d'écriture"""
         self.screen = screen
         self.font = pygame.font.SysFont("Arial", 24)
 
     def draw(self, model: GameModel) -> None:
+        """Dessine l'écran selon l'état du jeu"""
         self.screen.fill(COLOR_BG)
         if model.state == GameState.MENU:
             self._draw_menu(model)
@@ -22,6 +24,7 @@ class GameView:
         pygame.display.flip()
 
     def _draw_menu(self, model: GameModel) -> None:
+        """Dessine le menu principal"""
         cx = WINDOW_WIDTH // 2
 
         title_surf = self.font.render(
@@ -41,7 +44,7 @@ class GameView:
             self.screen.blit(text_surf, text_surf.get_rect(center=rect.center))
 
     def _draw_racing(self, model: GameModel) -> None:
-
+        """Dessine le circuit et la voiture pendant la course"""
         for row_idx, row in enumerate(model.circuit.grid):
             for col_idx, tile in enumerate(row):
                 sprite = tile.get_sprite(TILE_SIZE)

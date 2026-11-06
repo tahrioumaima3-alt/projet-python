@@ -14,7 +14,10 @@ class Car:
         self.speed: float = 0.0
         self.angle: float = 0.0
         self.sprite = self.build_sprite()
-
+        #
+        self.velocity_x = 0.0
+        self.velocity_y = 0.0
+        #
     def accelerate(self) -> None:
         """Augmente la vitesse de la voiture"""
         self.speed += CAR_ACCELERATION
@@ -26,11 +29,24 @@ class Car:
     def reverse(self) -> None:
         """Diminue la vitesse de la voiture"""
         self.speed -= CAR_ACCELERATION
-
+#
     def update_position(self) -> None:
         """Met à jour la position de la voiture"""
-        self.y += self.speed
-
+        self.x += self.speed * math.sin(math.radians(self.angle))
+        self.y -= self.speed * math.cos(math.radians(self.angle))
+    def turn_left(self) -> None:
+        """Tourne la voiture vers la gauche"""
+        self.angle -= 5
+    def turn_right(self) -> None:
+        """Tourne la voiture vers la droite"""
+        self.angle += 5
+    def apply_friction(self) -> None:
+        """Diminue progressivement la vitesse de la voiture"""
+        if self.speed > 0:
+            self.speed = max(0, self.speed - 0.01)
+        elif self.speed < 0:
+            self.speed = min(0, self.speed + 0.01)
+#
     def build_sprite(self) -> pygame.Surface:
         """Crée l'image rectangulaire de la voiture"""
         surf = pygame.Surface((CAR_WIDTH, CAR_HEIGHT), pygame.SRCALPHA)

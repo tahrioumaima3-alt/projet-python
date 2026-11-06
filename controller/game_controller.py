@@ -73,6 +73,11 @@ class GameController:
             car.brake()
         if player_input['reverse']:
             car.reverse()
+        
+        if player_input['left']:
+            car.turn_left()
+        if player_input['right']:
+            car.turn_right()
 
     def render(self) -> None:
         """Demande à la vue de dessiner le jeu"""

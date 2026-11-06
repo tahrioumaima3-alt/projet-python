@@ -27,4 +27,5 @@ class GameModel:
         """Met à jour la position de la voiture pendant la course"""
         if self.state != GameState.RACING or self.circuit is None:
             return
+        self.car.apply_friction()
         self.car.update_position()

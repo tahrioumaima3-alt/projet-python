@@ -5,6 +5,8 @@ MAPPING = {
     pygame.K_UP:     "accelerate",
     pygame.K_s: "brake",
     pygame.K_DOWN: "reverse", 
+    pygame.K_LEFT: "left",
+    pygame.K_RIGHT: "right",
 }
 
 
