@@ -3,8 +3,7 @@ import math
 from constants import (
     CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE
 )
-
-
+GRIP_SCALE = 0.87
 class Car:
     """Représente la voiture du joueur"""
     def __init__(self, start_col: int, start_row: int):
@@ -15,8 +14,8 @@ class Car:
         self.angle: float = 0.0
         self.sprite = self.build_sprite()
         #
-        self.velocity_x = 0.0
-        self.velocity_y = 0.0
+        self.velocity_x = 0.0 #vitesse horiz
+        self.velocity_y = 0.0 #vitesse vertic
         #
     def accelerate(self) -> None:
         """Augmente la vitesse de la voiture"""
@@ -30,10 +29,38 @@ class Car:
         """Diminue la vitesse de la voiture"""
         self.speed -= CAR_ACCELERATION
 #
+    
     def update_position(self) -> None:
-        """Met à jour la position de la voiture"""
-        self.x += self.speed * math.sin(math.radians(self.angle))
-        self.y -= self.speed * math.cos(math.radians(self.angle))
+        """Met à jour la position de la voiture avec le drift"""
+        # Direction vers laquelle la voiture regarde
+        angle_rad = math.radians(self.angle)
+        forward_x = math.sin(angle_rad)
+        forward_y = -math.cos(angle_rad)
+        # Direction perpendiculaire (glissement latéral)
+        side_x = math.cos(angle_rad)
+        side_y = math.sin(angle_rad)
+        # Séparation de la vitesse en deux composantes
+        forward_speed = (
+            self.velocity_x * forward_x
+            + self.velocity_y * forward_y)
+        lateral_speed = (
+            self.velocity_x * side_x
+            + self.velocity_y * side_y)
+        # La vitesse vers l'avant s'adapte à l'accélération
+        forward_speed += (self.speed - forward_speed) * 0.25
+        # Le glissement latéral diminue progressivement
+        lateral_speed *= GRIP_SCALE * LATERAL_FRICTION
+        # Reconstruction de la vitesse sur les deux axes
+        self.velocity_x = (
+            forward_speed * forward_x + lateral_speed * side_x
+        )
+        self.velocity_y = (
+            forward_speed * forward_y + lateral_speed * side_y
+        )
+        # Déplacement
+        self.x += self.velocity_x
+        self.y += self.velocity_y
+
     def turn_left(self) -> None:
         """Tourne la voiture vers la gauche"""
         self.angle -= 5
