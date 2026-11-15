@@ -5,7 +5,7 @@ from constants import (
 )
 GRIP_SCALE = 0.87
 LATERAL_FRICTION = 0.985 #valeur provisoire , je la remplace apres par un frottement dépendant du terrain
-
+AIR_FRICTION = 0.995
 class Car:
     """Représente la voiture du joueur"""
     def __init__(self, start_col: int, start_row: int):
@@ -70,11 +70,8 @@ class Car:
         """Tourne la voiture vers la droite"""
         self.angle += 5
     def apply_friction(self) -> None:
-        """Diminue progressivement la vitesse de la voiture"""
-        if self.speed > 0:
-            self.speed = max(0, self.speed - 0.01)
-        elif self.speed < 0:
-            self.speed = min(0, self.speed + 0.01)
+        """Simule les frottements de l'air sur la vitesse de la voiture"""
+        self.speed *= AIR_FRICTION
 #
     def build_sprite(self) -> pygame.Surface:
         """Crée l'image rectangulaire de la voiture"""
