@@ -4,8 +4,9 @@ from constants import (
     CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE
 )
 GRIP_SCALE = 0.87
-LATERAL_FRICTION = 0.985 #valeur provisoire , je la remplace apres par un frottement dépendant du terrain
 AIR_FRICTION = 0.995
+LATERAL_FRICTION = 0.96 #valeur provisoire , je la remplace apres par un frottement dépendant du terrain
+
 class Car:
     """Représente la voiture du joueur"""
     def __init__(self, start_col: int, start_row: int):
