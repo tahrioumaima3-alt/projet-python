@@ -4,6 +4,8 @@ from constants import (
     CAR_ACCELERATION, CAR_WIDTH, CAR_HEIGHT, TILE_SIZE
 )
 GRIP_SCALE = 0.87
+LATERAL_FRICTION = 0.985 #valeur provisoire , je la remplace apres par un frottement dépendant du terrain
+
 class Car:
     """Représente la voiture du joueur"""
     def __init__(self, start_col: int, start_row: int):
@@ -49,7 +51,7 @@ class Car:
         # La vitesse vers l'avant s'adapte à l'accélération
         forward_speed += (self.speed - forward_speed) * 0.25
         # Le glissement latéral diminue progressivement
-        lateral_speed *= GRIP_SCALE * LATERAL_FRICTION
+        lateral_speed *= LATERAL_FRICTION
         # Reconstruction de la vitesse sur les deux axes
         self.velocity_x = (
             forward_speed * forward_x + lateral_speed * side_x
