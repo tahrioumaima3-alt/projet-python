@@ -75,4 +75,6 @@ class GameModel:
         """
         if self.state != GameState.RACING or self.circuit is None:
             return
-        self.car.update_position()
+        if self.car is not None:
+            self.car.apply_friction()
+            self.car.update_position()
